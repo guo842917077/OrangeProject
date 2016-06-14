@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="colorPrimary">@color/blue_deep</item>
+        <!-- 状态栏颜色-->
+        <item name="colorPrimaryDark">#000000</item>
+        <!-- 选中颜色 -->
+        <item name="colorAccent">#F0F0F0</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!-- 窗口的背景颜色 -->
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    <style name="Line">
+        <item name="android:background">@color/grayLine</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+    </style>
+    <!-- Toolbar style-->
+    <style name="Toolbar">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+    <!--阴影部分 -->
+    <View
+        android:id="@+id/toolbar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/draw_shadow" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".main.view.MainActivity">
+
+        <com.orange.smileapp.config.weiget.MyViewPager
+            android:id="@+id/viewpager_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/wrapper_ntb_bottom" />
+        <!--底部Tab导航 -->
+        <FrameLayout
+            android:id="@+id/wrapper_ntb_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <View
+                android:id="@+id/bg_ntb_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_gravity="bottom"
+                android:background="@color/blue_deep" />
+
+            <com.gigamole.library.NavigationTabBar
+                android:id="@+id/ntb_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                app:ntb_badge_gravity="top"
+                app:ntb_badge_position="right"
+                app:ntb_badged="true"
+                app:ntb_scaled="true"
+                app:ntb_title_mode="all"
+                app:ntb_titled="true" />
+        </FrameLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,73 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "24.0.0 rc2"
+    repositories {
+        jcenter()
+        //淡出效果布局
+        maven { url "https://jitpack.io" }
+    }
+    defaultConfig {
+        applicationId "com.orange.smileapp"
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false//是否混淆
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            //代码混淆配置
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    //淡出效果的布局
+    compile('com.github.ozodrukh:CircularReveal:1.3.1@aar') {
+        transitive = true;
+    }
+    //RxJava
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    //网络请求库
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
+    //动画
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.easing:library:1.0.1@aar'
+    compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+    //ButterKnife快捷创建组件
+    compile 'com.jakewharton:butterknife:7.0.1'
+    //底部导航栏
+    compile 'com.github.devlight.navigationtabbar:library:1.1.8'
+    //绘制图表
+    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    // ripple 效果
+    compile 'com.balysv:material-ripple:1.0.2'
+    // icons
+    compile 'net.steamcrafted:materialiconlib:1.0.8'
+    //google
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:cardview-v7:23.3.0'
+    compile 'com.android.support:recyclerview-v7:23.3.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.android.support:design:23.4.0'
+}
+
+
