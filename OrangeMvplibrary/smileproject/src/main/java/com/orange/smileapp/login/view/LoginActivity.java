@@ -33,6 +33,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -49,7 +50,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
     @Override
     protected void registerListener() {
-        mBtnLogin.setOnClickListener(this);
+        RxView.clicks(mBtnLogin).throttleFirst(1000, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        startLoginAnimator(mBtnLogin);
+                    }
+                });
     }
 
     @Override
@@ -73,13 +80,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
         switch (v.getId()) {
             case R.id.btn_login:
                 //防止抖动
-                RxView.clicks(mBtnLogin).throttleFirst(2000, TimeUnit.MILLISECONDS)
-                        .subscribe(new Action1<Void>() {
-                            @Override
-                            public void call(Void aVoid) {
-                                startLoginAnimator(mBtnLogin);
-                            }
-                        });
+
                 break;
         }
     }
@@ -108,4 +109,5 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
             }
         }).playOn(view);
     }
+
 }
