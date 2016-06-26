@@ -23,7 +23,7 @@ public class TagChooseGridViewAdapter2 extends BaseAdapter {
     private Context mContext;
     private List<NavigationTab> mData;
     private int index;
-    private int pageSize;
+    private int itemSize;
     private OnTabItemClickListener onTabItemClickListener;
 
     public TagChooseGridViewAdapter2(Context context, List<NavigationTab> data, int index,OnTabItemClickListener callback) {
@@ -31,18 +31,18 @@ public class TagChooseGridViewAdapter2 extends BaseAdapter {
         this.mContext = context;
         this.mData = data;
         this.index = index;
-        pageSize = 4 * 2;
+        itemSize = 4 * 2;
         onTabItemClickListener=callback;
     }
 
     @Override
     public int getCount() {
-        return mData.size() > (index + 1) * pageSize ? pageSize : (mData.size() - index * pageSize);
+        return mData.size() > (index + 1) * itemSize ? itemSize : (mData.size() - index * itemSize);
     }
 
     @Override
     public Object getItem(int position) {
-        return mData.get(position + index * pageSize);
+        return mData.get(position + index * itemSize);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class TagChooseGridViewAdapter2 extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         //设置正确的position
-        final int pos = position + index * pageSize;
+        final int pos = position + index * itemSize;
         holder.tagName.setText(mData.get(pos).getName());
         holder.tagName.setTypeface(SmileUtils.smileFontUtil(mContext, "fonts/LatoLatin-Light.ttf"));
         holder.tagImage.setImageResource(mData.get(pos).getIcon());
