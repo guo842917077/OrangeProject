@@ -7,7 +7,8 @@ import android.view.ViewGroup;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/6/1.
+ * viewpager的适配器
+ * 负责加载view 这里面加载的是gridview
  */
 public class TabPageAdapter extends PagerAdapter {
     private List<View> mViewList;

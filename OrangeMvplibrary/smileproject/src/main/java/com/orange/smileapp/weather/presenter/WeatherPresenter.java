@@ -14,6 +14,9 @@ import com.orange.smileapp.weather.model.WeatherModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,6 +31,9 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
     private WeatherAdapter mAdapter;
     private List<WeatherModel> mWeathers = new ArrayList<>();
     private Context mContext;
+    private Semaphore mSemphore = new Semaphore(1);//设置信号量个数
+    private final ExecutorService mExecutors = Executors.newFixedThreadPool(1);//定义一个线程池
+
 
     public WeatherPresenter(@NonNull WeatherContract.WeatherView view, Context mContext) {
         this.mView = view;
@@ -37,28 +43,48 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
 
     @Override
     public void loadWeatherData(final View view) {
-        if (view instanceof RecyclerView) {
-            RetrofitFactory.weatherInstance(WeatherAPI.BaseWeather).getWeather("北京", "fe1120411a704783ba788dce11a6d152")
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<WeatherData>() {
-                        @Override
-                        public void onCompleted() {
-                            mView.loadWeatherData(mWeathers);
-                        }
+        loadData(view);
+    }
+    /**
+     * 尝试使用----线程池加信号量的方式 保证数据的同步
+     * 只为了练习
+     *
+     * @param view
+     */
+    private void loadData(final View view) {
+        mExecutors.submit(new Runnable() {
+            @Override
+            public void run() {
+                if (view instanceof RecyclerView) {
+                    try {
+                        mSemphore.acquire();
+                        RetrofitFactory.weatherInstance(WeatherAPI.BaseWeather).getWeather("北京", "fe1120411a704783ba788dce11a6d152")
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<WeatherData>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        mView.loadWeatherData(mWeathers);
+                                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e("Tag", "weather err " + e.getMessage());
-                        }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Log.e("Tag", "weather err " + e.getMessage());
+                                    }
 
-                        @Override
-                        public void onNext(WeatherData weatherList) {
-                            Log.e("tag", "weather list " + weatherList.mHeWeatherDataService30s.size());
-                            mWeathers.addAll(weatherList.mHeWeatherDataService30s);
-                        }
-                    });
-        }
+                                    @Override
+                                    public void onNext(WeatherData weatherList) {
+                                        Log.e("tag", "weather list " + weatherList.mHeWeatherDataService30s.size());
+                                        mWeathers.addAll(weatherList.mHeWeatherDataService30s);
+                                    }
+                                });
+                        mSemphore.release();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     @Override

@@ -62,7 +62,7 @@ public class TagChooseGridViewAdapter2 extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        //设置正确的position
+        //设置正确的position,加载正确的数据
         final int pos = position + index * itemSize;
         holder.tagName.setText(mData.get(pos).getName());
         holder.tagName.setTypeface(SmileUtils.smileFontUtil(mContext, "fonts/LatoLatin-Light.ttf"));
