@@ -44,6 +44,7 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
     @Override
     public void loadWeatherData(final View view) {
         loadData(view);
+        Log.d(TAG,"HH");
     }
     /**
      * 尝试使用----线程池加信号量的方式 保证数据的同步
