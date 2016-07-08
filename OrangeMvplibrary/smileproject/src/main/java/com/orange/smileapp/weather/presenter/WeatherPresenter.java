@@ -57,7 +57,7 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
             public void run() {
                 if (view instanceof RecyclerView) {
                     try {
-                        mSemphore.acquire();
+                        mSemphore.acquire();//拿到一个位置
                         RetrofitFactory.weatherInstance(WeatherAPI.BaseWeather).getWeather("北京", "fe1120411a704783ba788dce11a6d152")
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -65,6 +65,7 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
                                     @Override
                                     public void onCompleted() {
                                         mView.loadWeatherData(mWeathers);
+                                        mSemphore.release();//释放位置
                                     }
 
                                     @Override
@@ -78,7 +79,6 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
                                         mWeathers.addAll(weatherList.mHeWeatherDataService30s);
                                     }
                                 });
-                        mSemphore.release();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

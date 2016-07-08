@@ -25,12 +25,13 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context mContext;
     private final int TYPE_ONE = 0;
     private final int TYPE_TWO = 1;
-    private final int TYPE_THREE=2;
+    private final int TYPE_THREE = 2;
     private WeatherModel mWeathers;
 
     public WeatherAdapter(WeatherModel mWeathers, Context mContext) {
         this.mWeathers = mWeathers;
         this.mContext = mContext;
+        notifyItemRangeInserted(getItemCount(), 3);
     }
 
     @Override
@@ -72,7 +73,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return TYPE_ONE;
         else if (position == TYPE_TWO)
             return TYPE_TWO;
-        else if (position==TYPE_THREE)
+        else if (position == TYPE_THREE)
             return TYPE_THREE;
 
         return super.getItemViewType(position);

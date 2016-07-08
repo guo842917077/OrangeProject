@@ -133,6 +133,7 @@ public class LauncherActivity extends BaseActivity<LauncherPresenter> implements
             public void onAnimationStart() {
 
             }
+
             @Override
             public void onAnimationEnd() {
                 isLoadComplete = true;
@@ -142,6 +143,7 @@ public class LauncherActivity extends BaseActivity<LauncherPresenter> implements
                     finish();
                 }
             }
+
             @Override
             public void onAnimationCancel() {
 

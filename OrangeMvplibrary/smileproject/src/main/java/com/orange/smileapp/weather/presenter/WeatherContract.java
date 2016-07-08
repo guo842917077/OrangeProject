@@ -18,6 +18,8 @@ public class WeatherContract {
     }
 
     public interface WeatherView extends GoogleBaseView<WeatherPresenter> {
+        void collapseToolbar();
+
         void loadWeatherData(List<WeatherModel> data);
 
         void loadWeatherError();
