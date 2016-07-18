@@ -1,0 +1,83 @@
+<!--CoordinatorLayout和AppBarLayout相互协作使用 达到当一个当有控件滑动的时候顶部toolbar可以拉伸或者隐藏
+  CoordinatorLayout：是一个协调其他控件位置的布局
+-->
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <!-- AppBar的高度代表它能够展示出的最大高度-->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Light">
+        <!--对Toolbar进行扩展 使它能够滑动 被AppBar包裹内容都要加上app:layout_scrollFlags
+          exitUntilCollapsed：表示CollapsingToolbarLayout被收起来后的最小距离 保证不会被退出屏幕
+         app:contentScrim="?attr/colorPrimary" 当滑动到最小位置时的颜色
+        -->
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="256dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <!--在CollapsingToolbarLayout中加入一个ImageView 当滑动到第一个时 显示出来
+             可以省略 将CollapsingToolbarLayout的背景设为一张图片
+                 app:layout_collapseMode="parallax"：滚动的时差和
+                    app:layout_collapseParallaxMultiplier="1"一起使用 1的时候滑动收缩时图片静止
+                    0的时候同步滑动 也具备中间值
+            -->
+            <ImageView
+                android:id="@+id/backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/haizei"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="1"
+                android:transitionName="shareview"
+                />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+    <!--替代ScrollView -->
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        app:backgroundTint="@color/blue_light"
+        android:src="@mipmap/ic_discuss"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end" />
+
+</android.support.design.widget.CoordinatorLayout>

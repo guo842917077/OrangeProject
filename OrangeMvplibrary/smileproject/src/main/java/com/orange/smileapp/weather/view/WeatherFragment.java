@@ -158,7 +158,6 @@ public class WeatherFragment extends Fragment implements WeatherContract.Weather
                 final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
                 mToolbar.measure(widthSpec, heightSpec);
                 mToolbarHeight = mToolbar.getHeight();
-                Log.d("Weather","mToolbarHeight : "+mToolbarHeight);
                 /**
                  * 执行Toolbar动画
                  */

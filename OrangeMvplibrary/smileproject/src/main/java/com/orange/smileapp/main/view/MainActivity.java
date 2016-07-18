@@ -3,6 +3,7 @@ package com.orange.smileapp.main.view;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -156,5 +157,11 @@ public class MainActivity extends BaseComponetActivity<MainPresenter> implements
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mBrocadCastRecieve);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ActivityCompat.finishAfterTransition(MainActivity.this);
     }
 }

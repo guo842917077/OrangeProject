@@ -69,6 +69,11 @@ public class HomeFragment extends Fragment {
                             intent.putExtra(Contants.REPLACE_FRAGMENT,Contants.PAGE_WEATHER);
                             startActivity(intent);
                             break;
+                        case 2:
+                            Intent movie = new Intent(getActivity(), ContaineActivity.class);
+                            movie.putExtra(Contants.REPLACE_FRAGMENT,Contants.PAGE_MOVIE);
+                            startActivity(movie);
+                            break;
                     }
                 }
             });

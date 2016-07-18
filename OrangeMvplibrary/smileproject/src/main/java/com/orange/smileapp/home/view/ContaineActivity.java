@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.orange.smileapp.R;
 import com.orange.smileapp.config.Contants;
+import com.orange.smileapp.movie.presenter.MoviePresenter;
+import com.orange.smileapp.movie.view.MovieFragment;
 import com.orange.smileapp.weather.presenter.WeatherPresenter;
 import com.orange.smileapp.weather.view.WeatherFragment;
 
@@ -43,6 +45,10 @@ public class ContaineActivity extends AppCompatActivity {
             WeatherFragment weather = new WeatherFragment();
             replaceFragment(weather);
             new WeatherPresenter(weather, this);//初始化presenter
+        }else if (page.equals(Contants.PAGE_MOVIE)){
+            MovieFragment mMovie = new MovieFragment();
+            replaceFragment(mMovie);
+            new MoviePresenter(this,mMovie);
         }
 
     }
@@ -50,8 +56,10 @@ public class ContaineActivity extends AppCompatActivity {
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frag_container, fragment);
-        transaction.commit();
+        //添加Fragment的进入动画
+        transaction.setCustomAnimations(R.anim.anim_sild_down,0,R.anim.anim_sild_down,0)
+        .replace(R.id.frag_container, fragment)
+                .commit();
     }
 
 }
