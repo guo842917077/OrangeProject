@@ -1,5 +1,6 @@
 package com.orange.smileapp.config.utils.utlis.retrofit;
 
+import com.orange.smileapp.api.PhotoAPI;
 import com.orange.smileapp.api.SmileAPI;
 import com.orange.smileapp.api.WeatherAPI;
 
@@ -12,7 +13,7 @@ public class RetrofitFactory {
      */
     private volatile static SmileAPI smileInstance;
     private volatile static WeatherAPI weatherInstance;
-
+    private volatile static PhotoAPI photoInstance;
     public static WeatherAPI weatherInstance(String baseUrl) {
         if (weatherInstance == null) {
             synchronized (SmileAPI.class) {
@@ -23,5 +24,17 @@ public class RetrofitFactory {
             }
         }
         return weatherInstance;
+    }
+
+    public static PhotoAPI photoInstance(String baseUrl) {
+        if (photoInstance == null) {
+            synchronized (PhotoAPI.class) {
+                if (photoInstance == null) {
+                    RetrofitClient client = new RetrofitClient(baseUrl);
+                    photoInstance = client.getPhotoAPI();
+                }
+            }
+        }
+        return photoInstance;
     }
 }

@@ -31,7 +31,7 @@ public class APPConfig {
         tabs.add(new NavigationTab("朋友", R.mipmap.ic_friend));
         tabs.add(new NavigationTab("理财", R.mipmap.ic_fund));
         tabs.add(new NavigationTab("游戏", R.mipmap.ic_game));
-        tabs.add(new NavigationTab("推荐", R.mipmap.ic_hobby));
+        tabs.add(new NavigationTab("美图", R.mipmap.ic_hobby));
         tabs.add(new NavigationTab("居家", R.mipmap.ic_home));
         tabs.add(new NavigationTab("水果", R.mipmap.ic_fruit));
         TAB_HOME_DATA.append(HOME_GET_TAB, tabs);

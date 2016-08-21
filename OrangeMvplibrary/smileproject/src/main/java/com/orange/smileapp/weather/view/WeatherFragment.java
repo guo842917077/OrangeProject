@@ -89,7 +89,6 @@ public class WeatherFragment extends Fragment implements WeatherContract.Weather
                 //拿到Toolbar的布局参数
                 ViewGroup.LayoutParams lp = mToolbar.getLayoutParams();
                 lp.height =(Integer) animation.getAnimatedValue();//将每次产生的值 作为参数赋给toolbar，让toolbar不断改变高度
-                Log.d("TAG","animator size : "+animation.getAnimatedValue());
                 mToolbar.setLayoutParams(lp);
                 mToolbar.invalidate();
             }

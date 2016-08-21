@@ -1,5 +1,6 @@
 package com.orange.smileapp.config.utils.utlis.retrofit;
 
+import com.orange.smileapp.api.PhotoAPI;
 import com.orange.smileapp.api.SmileAPI;
 import com.orange.smileapp.api.WeatherAPI;
 
@@ -32,5 +33,9 @@ public class RetrofitClient {
 
     public WeatherAPI getWeatherAPI() {
         return client.create(WeatherAPI.class);
+    }
+
+    public PhotoAPI getPhotoAPI() {
+        return client.create(PhotoAPI.class);
     }
 }

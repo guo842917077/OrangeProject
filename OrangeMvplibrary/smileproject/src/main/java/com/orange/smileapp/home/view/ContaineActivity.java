@@ -12,6 +12,8 @@ import com.orange.smileapp.R;
 import com.orange.smileapp.config.Contants;
 import com.orange.smileapp.movie.presenter.MoviePresenter;
 import com.orange.smileapp.movie.view.MovieFragment;
+import com.orange.smileapp.photo.presenter.PhotoPresenter;
+import com.orange.smileapp.photo.view.PhotoFragment;
 import com.orange.smileapp.weather.presenter.WeatherPresenter;
 import com.orange.smileapp.weather.view.WeatherFragment;
 
@@ -49,8 +51,12 @@ public class ContaineActivity extends AppCompatActivity {
             MovieFragment mMovie = new MovieFragment();
             replaceFragment(mMovie);
             new MoviePresenter(this,mMovie);
+        }else if(page.equals(Contants.PAGE_PHTOT)){
+            PhotoFragment photo=new PhotoFragment();
+            replaceFragment(photo);
+            //初始化Presenter;
+            new PhotoPresenter(this,photo);
         }
-
     }
 
     public void replaceFragment(Fragment fragment) {
