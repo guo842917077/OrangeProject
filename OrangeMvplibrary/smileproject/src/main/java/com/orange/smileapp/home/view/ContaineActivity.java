@@ -57,8 +57,8 @@ public class ContaineActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         //添加Fragment的进入动画
-        transaction.setCustomAnimations(R.anim.anim_sild_down,0,R.anim.anim_sild_down,0)
-        .replace(R.id.frag_container, fragment)
+        //transaction.setCustomAnimations(R.anim.anim_sild_down,0,R.anim.anim_sild_down,0)
+        transaction.replace(R.id.frag_container, fragment)
                 .commit();
     }
 

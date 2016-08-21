@@ -1,1 +1,1 @@
-include ':app', ':smileapp'
+include ':app', ':smileapp', ':smileproject'

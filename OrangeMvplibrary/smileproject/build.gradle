@@ -4,9 +4,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'orange'
-            keyPassword 'guo19930204'
+            keyPassword KEY_PASSWORD
             storeFile file('C:/Users/Administrator/Desktop/keystore/keyStore.jks')
-            storePassword 'guo19930204'
+            storePassword KEYSTORE_PASSWORD
         }
     }
     compileSdkVersion 23
