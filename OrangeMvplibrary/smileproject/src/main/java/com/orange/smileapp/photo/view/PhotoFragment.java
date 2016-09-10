@@ -56,7 +56,7 @@ public class PhotoFragment extends Fragment implements PhotoContract.PhotoView, 
         //mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRefreshView.setOnRefreshListener(this);
-        mPresenter.loadPhotoData(mRecyclerView);
+        mPresenter.loadPhotoData();
     }
 
     @Override
