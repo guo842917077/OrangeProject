@@ -9,4 +9,5 @@ public class Contants {
     public static String PAGE_WEATHER="天气";
     public static String PAGE_MOVIE="电影";
     public static String PAGE_PHTOT="美图";
+    public static String PAGE_NEWS="新闻";
 }

@@ -7,14 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.orange.smileapp.R;
-import com.orange.smileapp.SmileApplication;
 import com.orange.smileapp.config.Contants;
-import com.orange.smileapp.dagger.component.DaggerPhotoComponent;
-import com.orange.smileapp.dagger.module.PhotoModule;
 import com.orange.smileapp.movie.presenter.MoviePresenter;
 import com.orange.smileapp.movie.view.MovieFragment;
+import com.orange.smileapp.news.NewsFragment;
 import com.orange.smileapp.photo.presenter.PhotoPresenter;
 import com.orange.smileapp.photo.view.PhotoFragment;
 import com.orange.smileapp.weather.presenter.WeatherPresenter;
@@ -35,6 +34,9 @@ public class ContaineActivity extends AppCompatActivity {
      */
     @Inject
     public PhotoPresenter mPhotoPresenter;
+/*    @Inject
+    public NewsPresenterImp newsPresenterImp;*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,18 +55,26 @@ public class ContaineActivity extends AppCompatActivity {
         if (page.equals(""))
             return;
         else if (page.equals(Contants.PAGE_WEATHER)) {
-            WeatherFragment mWeather=new WeatherFragment();
+            WeatherFragment mWeather = new WeatherFragment();
             replaceFragment(mWeather);
             //初始化presenter
             new WeatherPresenter(mWeather, this);
         } else if (page.equals(Contants.PAGE_MOVIE)) {
-            MovieFragment mMovie=new MovieFragment();
+            MovieFragment mMovie = new MovieFragment();
             replaceFragment(mMovie);
             new MoviePresenter(this, mMovie);
         } else if (page.equals(Contants.PAGE_PHTOT)) {
-            PhotoFragment fragment=new PhotoFragment();
+            PhotoFragment fragment = new PhotoFragment();
             initComponent(fragment);
             replaceFragment(fragment);
+        } else if (page.equals(Contants.PAGE_NEWS)) {
+            NewsFragment newsFragment = new NewsFragment();
+          /*  DaggerPhotoComponent.builder()
+                    .appComponent(((SmileApplication) getApplication())
+                            .getAppComponent()).newsModule(new NewsModule(newsFragment))
+                    .photoModule(new PhotoModule(new PhotoFragment())).build()
+                    .inject(this);*/
+            replaceFragment(newsFragment);
         }
     }
 
@@ -76,8 +86,17 @@ public class ContaineActivity extends AppCompatActivity {
         transaction.replace(R.id.frag_container, fragment)
                 .commit();
     }
-    private void initComponent(PhotoFragment photoFragment){
+
+    private void initComponent(PhotoFragment photoFragment) {
         //添加注入关系
-        DaggerPhotoComponent.builder().appComponent(((SmileApplication)getApplication()).getAppComponent()).photoModule(new PhotoModule(photoFragment)).build().inject(this);
+        //DaggerPhotoComponent.builder().appComponent(((SmileApplication) getApplication()).getAppComponent()).photoModule(new PhotoModule(photoFragment)).build().inject(this);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

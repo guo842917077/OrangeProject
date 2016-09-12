@@ -63,20 +63,25 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onItemClick(int position, NavigationTab tab) {
                     switch (position) {
+                        case 0:
+                            Intent news = new Intent(getActivity(), ContaineActivity.class);
+                            news.putExtra(Contants.REPLACE_FRAGMENT, Contants.PAGE_NEWS);
+                            startActivity(news);
+                            break;
                         case 1:
                             //测试回调是否生效
                             Intent intent = new Intent(getActivity(), ContaineActivity.class);
-                            intent.putExtra(Contants.REPLACE_FRAGMENT,Contants.PAGE_WEATHER);
+                            intent.putExtra(Contants.REPLACE_FRAGMENT, Contants.PAGE_WEATHER);
                             startActivity(intent);
                             break;
                         case 2:
                             Intent movie = new Intent(getActivity(), ContaineActivity.class);
-                            movie.putExtra(Contants.REPLACE_FRAGMENT,Contants.PAGE_MOVIE);
+                            movie.putExtra(Contants.REPLACE_FRAGMENT, Contants.PAGE_MOVIE);
                             startActivity(movie);
                             break;
                         case 6:
-                            Intent photo=new Intent(getActivity(),ContaineActivity.class);
-                            photo.putExtra(Contants.REPLACE_FRAGMENT,Contants.PAGE_PHTOT);
+                            Intent photo = new Intent(getActivity(), ContaineActivity.class);
+                            photo.putExtra(Contants.REPLACE_FRAGMENT, Contants.PAGE_PHTOT);
                             startActivity(photo);
                             break;
                     }
