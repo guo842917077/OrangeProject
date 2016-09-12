@@ -3,31 +3,44 @@ package mvp.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import mvp.presenter.BasePresenter;
+import com.orange.smileapp.dagger.scope.FragmentScope;
+
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import mvp.presenter.BaseFragmentPresenter;
 
 /**
  * Created by Administrator on 2016/5/31.
  */
-public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
+public abstract class BaseFragment<T extends BaseFragmentPresenter> extends Fragment implements IBaseView {
     protected String TAG = this.getClass().getSimpleName();
     protected View viewRoot;//返回整个布局对象
-    protected T mPresenter;//业务实例
 
-    public abstract T createPresenter();//子类创建presenter方法
+    @FragmentScope
+    @Inject
+    T mPresenter;//业务实例
+
+    /**
+     * 负责对象的注入
+     */
+    public abstract void injectComponent();//使用Dagger2注入依赖
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mPresenter = createPresenter();
         super.onCreate(savedInstanceState);
+        injectComponent();
         onViewCreateBefore();
         onSetContentView();
-        onViewCreated();
         setOnListener();
-        mPresenter.onCreate(savedInstanceState);
+        Log.d(TAG, "hhhh oncreate presenter is : " + mPresenter);
+        if (mPresenter != null)
+            mPresenter.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -50,17 +63,18 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
     }
 
-    /**
-     * 在setContentView之后被调用
-     */
-    protected void onViewCreated() {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //对全局的控件进行注入
+        ButterKnife.bind(this, view);
+        initComponent(viewRoot);
+        mPresenter.attchView(this);
         mPresenter.onViewCreated();
     }
 
-
     protected void onSetContentView() {
         viewRoot = View.inflate(getActivity(), getContentViewResource(), null);
-        initComponent(viewRoot);
     }
 
     @Override

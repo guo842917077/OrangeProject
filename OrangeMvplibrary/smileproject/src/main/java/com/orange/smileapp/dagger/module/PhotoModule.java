@@ -17,7 +17,6 @@ public class PhotoModule {
     @PhotoScope
     @Provides
     public PhotoContract.PhotoView providePhotoView() {
-
         return photoView;
     }
 

@@ -2,12 +2,8 @@ package com.orange.smileapp.news;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -18,19 +14,18 @@ import android.widget.TextView;
 
 import com.orange.smileapp.R;
 import com.orange.smileapp.SmileApplication;
-import com.orange.smileapp.dagger.component.DaggerPhotoComponent;
-import com.orange.smileapp.dagger.module.NewsModule;
-import com.orange.smileapp.dagger.module.PhotoModule;
-import com.orange.smileapp.dagger.scope.PhotoScope;
+import com.orange.smileapp.dagger.scope.FragmentScope;
 import com.orange.smileapp.home.view.ContaineActivity;
-import com.orange.smileapp.photo.view.PhotoFragment;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import mvp.dagger.DaggerFragmentComponent;
+import mvp.dagger.FragmentModule;
+import mvp.view.BaseFragment;
 
-public class NewsFragment extends Fragment implements NewsContract.NewsView {
+public class NewsFragment extends BaseFragment<NewsPresenterImp> implements INewsView{
 
     private final String TAG = NewsFragment.class.getSimpleName();
     @Bind(R.id.web_news)
@@ -49,7 +44,7 @@ public class NewsFragment extends Fragment implements NewsContract.NewsView {
 
     private String mNewsUrl = "http://www.news.qq.com";
 
-    @PhotoScope
+    @FragmentScope
     @Inject
     public NewsPresenterImp mPresenter;
 
@@ -59,23 +54,31 @@ public class NewsFragment extends Fragment implements NewsContract.NewsView {
 
 
     @Override
+    public void injectComponent() {
+        DaggerFragmentComponent.builder().appComponent(((SmileApplication)getActivity()
+                .getApplication()).getAppComponent())
+                .fragmentModule(new FragmentModule(this))
+                .build().inject(this);
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
-        inject();
-        ButterKnife.bind(this, view);
-        Log.d(TAG, "news presenter is : " + mPresenter);
-        initComponent();
-        mPresenter.start();
-        return view;
+    protected int getContentViewResource() {
+        return R.layout.fragment_news;
     }
 
-    private void initComponent() {
+    @Override
+    protected void setOnListener() {
+
+    }
+    @Override
+    protected void initComponent(View view) {
         mToolbar.setTitle("");
         ((ContaineActivity) getActivity()).setSupportActionBar(mToolbar);
         ((ContaineActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,7 +87,6 @@ public class NewsFragment extends Fragment implements NewsContract.NewsView {
         mTv_left.setText("腾讯新闻");
         mTv_left.setTextSize(22);
     }
-
 
     @Override
     public void loadNews() {
@@ -159,11 +161,6 @@ public class NewsFragment extends Fragment implements NewsContract.NewsView {
         });
     }
 
-    @Override
-    public void createPresenter(NewsPresenterImp presenter) {
-        if (presenter != null)
-            mPresenter = presenter;
-    }
 
     @Override
     public void onDestroyView() {
@@ -171,10 +168,4 @@ public class NewsFragment extends Fragment implements NewsContract.NewsView {
         ButterKnife.unbind(this);
     }
 
-    private void inject() {
-        DaggerPhotoComponent.builder()
-                .appComponent(((SmileApplication) getActivity().getApplication()).getAppComponent()).newsModule(new NewsModule(this))
-                .photoModule(new PhotoModule(new PhotoFragment())).build()
-                .inject(this);
-    }
 }
