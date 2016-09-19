@@ -3,6 +3,7 @@ package com.orange.smileapp.news;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -14,8 +15,11 @@ import android.widget.TextView;
 
 import com.orange.smileapp.R;
 import com.orange.smileapp.SmileApplication;
+import com.orange.smileapp.config.utils.utlis.retrofit.RetrofitUtils;
 import com.orange.smileapp.dagger.scope.FragmentScope;
 import com.orange.smileapp.home.view.ContaineActivity;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -24,8 +28,9 @@ import butterknife.ButterKnife;
 import mvp.dagger.DaggerFragmentComponent;
 import mvp.dagger.FragmentModule;
 import mvp.view.BaseFragment;
+import retrofit2.Retrofit;
 
-public class NewsFragment extends BaseFragment<NewsPresenterImp> implements INewsView{
+public class NewsFragment extends BaseFragment<NewsPresenterImp> implements INewsView {
 
     private final String TAG = NewsFragment.class.getSimpleName();
     @Bind(R.id.web_news)
@@ -43,10 +48,11 @@ public class NewsFragment extends BaseFragment<NewsPresenterImp> implements INew
      */
 
     private String mNewsUrl = "http://www.news.qq.com";
-
     @FragmentScope
     @Inject
     public NewsPresenterImp mPresenter;
+
+    public RetrofitUtils utils;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -55,7 +61,7 @@ public class NewsFragment extends BaseFragment<NewsPresenterImp> implements INew
 
     @Override
     public void injectComponent() {
-        DaggerFragmentComponent.builder().appComponent(((SmileApplication)getActivity()
+        DaggerFragmentComponent.builder().appComponent(((SmileApplication) getActivity()
                 .getApplication()).getAppComponent())
                 .fragmentModule(new FragmentModule(this))
                 .build().inject(this);
@@ -65,6 +71,17 @@ public class NewsFragment extends BaseFragment<NewsPresenterImp> implements INew
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RetrofitUtils utils = new RetrofitUtils.Builder()
+                .addBaseUrl("https://api.heweather.com/x3/")
+                .addOkHttpCache(true)
+                .needCreateClient(true)
+                .addRxFactory(true)
+                .addOkhttpTimeOut(1)
+                .addTimeFormat(TimeUnit.HOURS)
+                .addCookie(true)
+                .create(getActivity());
+        Retrofit client = utils.createRetrofit();
+        Log.e("NewsFragment", "retrofit : " + client);
     }
 
 
@@ -77,6 +94,7 @@ public class NewsFragment extends BaseFragment<NewsPresenterImp> implements INew
     protected void setOnListener() {
 
     }
+
     @Override
     protected void initComponent(View view) {
         mToolbar.setTitle("");

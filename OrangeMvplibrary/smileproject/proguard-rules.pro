@@ -17,7 +17,7 @@
 #}
 #尝试代码混淆
 #不预校验
-#-dontpreverify
+-dontpreverify
 #不优化
 #-dontoptimize
 #打印详细
